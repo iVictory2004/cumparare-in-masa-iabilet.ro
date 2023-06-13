@@ -1,10 +1,10 @@
-# cumparare-in-masa-iabilet.ro
+# Japca la bilete în masă pe iabilet.ro
  Program de cumparat bilete automat cu cod de voucher gratis pe iabilet.ro
 
 Dupa ce downlodati codul, adaugati un fisier pe nume .env in care se scrieti variabile in formatul:
 Daca e mai greu cu kktu asta puteti sa va uitati in cod sa scrieti direct 
 ```bash
-URL = EMAILULVOSTRU
+URL = Linku_de_la_ce_venue_vrei  #exemplu e https://www.iabilet.ro/bilete-concert-guns-n-roses-pe-arena-nationala-din-bucuresti-81171/?utm_source=HpTopWeb
 CODE = CODUL_DE_FORMULAR
 EMAIL = DUH
 PASSWORD = EVIDENT
