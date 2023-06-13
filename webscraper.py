@@ -19,6 +19,10 @@ password = os.getenv("PASSWORD")
 options = webdriver.ChromeOptions()
 options.add_argument("--no-sandbox")
 options.add_argument("--user-data-dir=/Users/viktorashi/Library/Application Support/Google/Chrome/")
+#start it headless
+options.add_argument("--headless=new")
+options.add_argument("--disable-gpu")
+
 options.add_argument('--profile-directory=Profile 1')
 
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
@@ -97,8 +101,10 @@ def iaBiletlol(w):
 
 
     #sunt de acord
-    WebDriverWait(w, 10).until(EC.visibility_of_element_located(('xpath',  '/html/body/div[4]/div/div/div[2]/button[1]'))).click()
-    
+    try:
+        WebDriverWait(w, 10).until(EC.visibility_of_element_located(('xpath',  '/html/body/div[4]/div/div/div[2]/button[1]'))).click()
+    except:
+        WebDriverWait(w, 10).until(EC.visibility_of_element_located(('xpath',  '/html/body/div[5]/div/div/div[2]/button[1]'))).click()
  
     
 
@@ -108,6 +114,7 @@ def iaBiletlol(w):
 
 for i in range(1000):   
     iaBiletlol(driver)
+    print("Am luat biletul!! baa")
     
 
 
