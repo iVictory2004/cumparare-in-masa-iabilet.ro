@@ -57,6 +57,7 @@ def iaBiletlol(w):
     try:
         WebDriverWait(w, 10).until(EC.visibility_of_element_located(('xpath','//*[@id="orderForm"]/div[3]/div[3]/div[1]/div/div[1]/a'))).click()
     except:
+        #aici
         WebDriverWait(w, 10).until(EC.visibility_of_element_located(('xpath','/html/body/div[1]/div[2]/div[3]/div[1]/div/form/div[3]/div[3]/div[1]/div/div[1]/a'))).click()
         
     
@@ -65,7 +66,7 @@ def iaBiletlol(w):
         #cred ca e interacitibl da nu detecteaza chestia asta deci pot doar sa-l fac sa dea click pe el daca il vede doar
         WebDriverWait(w, 10).until(EC.visibility_of_element_located(('xpath',  '//*[@id="BookingHandler_voucherCode"]'))).send_keys(inviteCode)
     except:
-        WebDriverWait(w, 10).until(EC.visibility_of_element_located(('xpath',  '/html/body/div[1]/div[2]/div[3]/div[1]/div/form/div[3]/div[3]/div[1]/div/div[1]/a'))).send_keys(inviteCode)
+        WebDriverWait(w, 10).until(EC.visibility_of_element_located(('xpath',  '/html/body/div[1]/div[2]/div[3]/div[1]/div/form/div[3]/div[3]/div[1]/div/div[2]/div/input'))).send_keys(inviteCode)
         print('nu a mers clickul pe casuta')
         
     
