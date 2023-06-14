@@ -2,10 +2,13 @@
  
 Dupa ce downlodati codul, adaugati un fisier pe nume .env in care se scrieti variabile in formatul:
 ```bash
-URL = Linku_de_la_ce_venue_vrei  #exemplu e https://www.iabilet.ro/bilete-concert-guns-n-roses-pe-arena-nationala-din-bucuresti-81171/?utm_source=HpTopWeb
-CODE = CODUL_DE_FORMULAR
-EMAIL = DUH
-PASSWORD = EVIDENT
+URL = <Linku_de_la_ce_venue_vrei> #exemplu e https://www.iabilet.ro/bilete-concert-guns-n-roses-pe-arena-nationala-din-bucuresti-81171/?utm_source=HpTopWeb
+CODE = <CODUL_DE_FORMULAR>
+EMAIL =< DUH>
+PASSWORD = <EVIDENT>
+NUME = <nume>
+PRENUME = <prenume>
+TELEFON = <telefon>
 ```
 Daca e mai greu cu kktu asta puteti sa va uitati in cod sa scrieti direct 
 Dupa care copiati aceste 4 linii impreuna si paste-utile in terminalul deschis pe folderul cu fisierele:
