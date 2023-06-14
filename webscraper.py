@@ -108,9 +108,9 @@ def iaBiletlol(w):
 
     #creeaza detalii de contact daca nu sunt deja
     try:
-        
-        w.find_element('xpath', '/html/body/section/div/div[2]/div[2]/div/form/div[2]/div[1]/input').send_keys(nume)
+        WebDriverWait(w, 3).until(EC.visibility_of_element_located(('xpath','/html/body/section/div/div[2]/div[2]/div/form/div[2]/div[1]/input'))).send_keys(nume)
         w.find_element('xpath', '/html/body/section/div/div[2]/div[2]/div/form/div[2]/div[2]/input').send_keys(prenume)
+        print("Mailu: " + random_email)
         w.find_element('xpath', '/html/body/section/div/div[2]/div[2]/div/form/div[3]/div[1]/input').send_keys(random_email)
         w.find_element('xpath', '/html/body/section/div/div[2]/div[2]/div/form/div[3]/div[2]/input').send_keys(phone)
         w.find_element('xpath', '/html/body/section/div/div[2]/div[2]/div/form/div[4]/div/div[2]/label/input[2]').click()
@@ -123,11 +123,23 @@ def iaBiletlol(w):
         WebDriverWait(w, 10).until(EC.visibility_of_element_located(('xpath', '/html/body/section/div/div[2]/div[2]/div/form/div[2]/div/div[2]/label/input[2]'))).click()
         #continua
         w.find_element('xpath', '/html/body/section/div/div[2]/div[2]/div/form/div[3]/div/input[1]').click()
+        try:
+            #aici cand mai completezi o data trebuie sa schimbi doar mailu
+            print("Mailu: " + random_email)
+            w.find_element('xpath', '/html/body/section/div/div[2]/div[2]/div/form/div[3]/div[1]/input').clear()
+            w.find_element('xpath', '/html/body/section/div/div[2]/div[2]/div/form/div[3]/div[1]/input').send_keys(random_email)
+            w.find_element('xpath', '/html/body/section/div/div[2]/div[2]/div/form/div[5]/div/div/button').click()
+        except: 
+            pass
+        #continua
+
 
 
     #alege voucher
-    WebDriverWait(w, 10).until(EC.visibility_of_element_located(('xpath', '/html/body/section/div/div[2]/div[2]/div[1]/form/div[2]/div[1]/div[2]/button'))).click()
-    
+    try:
+        WebDriverWait(w, 1.6).until(EC.visibility_of_element_located(('xpath', '/html/body/section/div/div[2]/div[2]/div[1]/form/div[2]/div[1]/div[2]/button'))).click()
+    except:
+        WebDriverWait(w, 10).until(EC.visibility_of_element_located(('xpath', '//*[@id="choosePaymentForm"]/div[2]/div[1]/div[2]/button'))).click()
 
 
     #sunt de acord
@@ -141,8 +153,7 @@ def iaBiletlol(w):
 
 
      
-
-for i in range(10000): 
+while True:
     for j in range(25):  
         iaBiletlol(driver)
         random_email =  generage_random_email()
