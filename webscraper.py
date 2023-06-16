@@ -2,14 +2,17 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.support.wait import WebDriverWait 
+from selenium.webdriver.support.wait import WebDriverWait as wait
 from selenium.webdriver.support import expected_conditions  as EC
+from selenium.common.exceptions import  NoSuchFrameException, InvalidSwitchToTargetException, TimeoutException
 from dotenv import load_dotenv
 import random
 import string
-
+import time
 load_dotenv()   
 import os
+
+
 
 def generage_random_email():
     return ''.join(random.choices(string.ascii_lowercase, k=5)) + '@gmail.com'
@@ -55,18 +58,18 @@ def iaBiletlol(w):
         pass
     #apasa sa deschizi casuta in care sa bagi codul
     try:
-        WebDriverWait(w, 10).until(EC.visibility_of_element_located(('xpath','//*[@id="orderForm"]/div[3]/div[3]/div[1]/div/div[1]/a'))).click()
+        wait(w, 10).until(EC.visibility_of_element_located(('xpath','//*[@id="orderForm"]/div[3]/div[3]/div[1]/div/div[1]/a'))).click()
     except:
         #aici
-        WebDriverWait(w, 10).until(EC.visibility_of_element_located(('xpath','/html/body/div[1]/div[2]/div[3]/div[1]/div/form/div[3]/div[3]/div[1]/div/div[1]/a'))).click()
+        wait(w, 10).until(EC.visibility_of_element_located(('xpath','/html/body/div[1]/div[2]/div[3]/div[1]/div/form/div[3]/div[3]/div[1]/div/div[1]/a'))).click()
         
     
     #dai click pe ea si scrii codu
     try:
         #cred ca e interacitibl da nu detecteaza chestia asta deci pot doar sa-l fac sa dea click pe el daca il vede doar
-        WebDriverWait(w, 10).until(EC.visibility_of_element_located(('xpath',  '//*[@id="BookingHandler_voucherCode"]'))).send_keys(inviteCode)
+        wait(w, 10).until(EC.visibility_of_element_located(('xpath',  '//*[@id="BookingHandler_voucherCode"]'))).send_keys(inviteCode)
     except:
-        WebDriverWait(w, 10).until(EC.visibility_of_element_located(('xpath',  '/html/body/div[1]/div[2]/div[3]/div[1]/div/form/div[3]/div[3]/div[1]/div/div[2]/div/input'))).send_keys(inviteCode)
+        wait(w, 10).until(EC.visibility_of_element_located(('xpath',  '/html/body/div[1]/div[2]/div[3]/div[1]/div/form/div[3]/div[3]/div[1]/div/div[2]/div/input'))).send_keys(inviteCode)
         print('nu a mers clickul pe casuta')
         
     
@@ -76,23 +79,47 @@ def iaBiletlol(w):
     
 #da click sa adaugi in cart
     try:
-        WebDriverWait(w, 10).until(EC.visibility_of_element_located(("xpath", '//*[@id="orderForm"]/div[3]/div[3]/div[3]/div/a[2]/span'))).click()
+        wait(w, 10).until(EC.visibility_of_element_located(("xpath", '//*[@id="orderForm"]/div[3]/div[3]/div[3]/div/a[2]/span'))).click()
     except:
-        WebDriverWait(w, 10).until(EC.visibility_of_element_located(("xpath", '/html/body/div[1]/div[2]/div[3]/div[1]/div/form/div[3]/div[3]/div[3]/div/a[2]/span'))).click()
+        wait(w, 10).until(EC.visibility_of_element_located(("xpath", '/html/body/div[1]/div[2]/div[3]/div[1]/div/form/div[3]/div[3]/div[3]/div/a[2]/span'))).click()
 
     
     w.find_element('xpath', '/html/body/div[1]/div[2]/div[3]/div[1]/div/form/div[3]/div[4]/div[3]/button').click()
      
-    
-    WebDriverWait(w, 10).until(EC.visibility_of_element_located(("xpath",'/html/body/section/div/div/div[2]/div/div[1]/div/a'))).click()
+    print("VINE CAPTCHAUUU");
 
+    if( EC.visibility_of_element_located(("xpath", "/html/body/div[1]/form/div/div/div/iframe"))):
+        time.sleep(1.6)
+        try:
+            #wait for iframe elemet of captcha to be clickable and swtich to it
+            wait(w , 2).until(EC.frame_to_be_available_and_switch_to_it(("xpath", "/html/body/div[1]/form/div/div/div/iframe")))
+
+            wait(w, 2,).until(EC.element_to_be_clickable(("xpath",'/html/body/div[2]/div[3]/div[1]/div/div/span/div[1]'))).click()
+
+            wait(w, 2).until(EC.element_to_be_clickable(("xpath",'/html/body/div[2]/div[3]/div[2]/div/label'))).click()
+        except (NoSuchFrameException, InvalidSwitchToTargetException ,TimeoutException):
+            print("n-are captcha bruh")
+        except:
+            wait(w, 2).until(EC.element_to_be_clickable(("xpath",'//*[@id="recaptcha-anchor-label"]'))).click()
+            wait(w, 2).until(EC.element_to_be_clickable(("xpath",'//*[@id="recaptcha-anchor"]/div[1]'))).click()
+    else:
+        print("n-are captcha bruh")
+
+    w.switch_to.default_content()
+            
+    try:
+        wait(w, 1.3).until(EC.visibility_of_element_located(("xpath",'/html/body/section/div/div/div[2]/div/div[1]/div/a'))).click()
+    except:
+        wait(w, 2).until(EC.visibility_of_element_located(("xpath",'//*[@id="boxDefaultShippingMethod"]/div/a'))).click()
+
+    print("DUPA CAPCHAA AM SUPRAVIETUITTT!!!!!!!")
     
 
     
     try:
         #daca esti deja logat probabil nu trebuie sa asctepti deoc asa ca nu mai fac cu wait
-        # WebDriverWait(w, 3).until(lambda x : x.find_element('xpath', '/html/body/section/div/div/div[2]/div/ul/li[2]/a')).click()
-        WebDriverWait(w, 10).until(EC.visibility_of_element_located(("xpath",'/html/body/section/div/div/div[2]/div/ul/li[2]/a'))).click()
+        # wait(w, 3).until(lambda x : x.find_element('xpath', '/html/body/section/div/div/div[2]/div/ul/li[2]/a')).click()
+        wait(w, 1.3).until(EC.visibility_of_element_located(("xpath",'/html/body/section/div/div/div[2]/div/ul/li[2]/a'))).click()
         
         # w.find_element('xpath', ).click()
 
@@ -108,7 +135,7 @@ def iaBiletlol(w):
 
     #creeaza detalii de contact daca nu sunt deja
     try:
-        WebDriverWait(w, 3).until(EC.visibility_of_element_located(('xpath','/html/body/section/div/div[2]/div[2]/div/form/div[2]/div[1]/input'))).send_keys(nume)
+        wait(w,1.7).until(EC.visibility_of_element_located(('xpath','/html/body/section/div/div[2]/div[2]/div/form/div[2]/div[1]/input'))).send_keys(nume)
         w.find_element('xpath', '/html/body/section/div/div[2]/div[2]/div/form/div[2]/div[2]/input').send_keys(prenume)
         print("Mailu: " + random_email)
         w.find_element('xpath', '/html/body/section/div/div[2]/div[2]/div/form/div[3]/div[1]/input').send_keys(random_email)
@@ -118,9 +145,9 @@ def iaBiletlol(w):
     except:
         print("Detaliile de contact sunt deja completate")
         #alege detalii de contact
-        WebDriverWait(w, 10).until(EC.visibility_of_element_located(('xpath', '/html/body/section/div/div[2]/div[2]/div/form/table/tbody/tr[1]/td[2]/button'))).click()
+        wait(w, 10).until(EC.visibility_of_element_located(('xpath', '/html/body/section/div/div[2]/div[2]/div/form/table/tbody/tr[1]/td[2]/button'))).click()
         #accepta termenii si conditiile
-        WebDriverWait(w, 10).until(EC.visibility_of_element_located(('xpath', '/html/body/section/div/div[2]/div[2]/div/form/div[2]/div/div[2]/label/input[2]'))).click()
+        wait(w, 10).until(EC.visibility_of_element_located(('xpath', '/html/body/section/div/div[2]/div[2]/div/form/div[2]/div/div[2]/label/input[2]'))).click()
         #continua
         w.find_element('xpath', '/html/body/section/div/div[2]/div[2]/div/form/div[3]/div/input[1]').click()
         try:
@@ -137,16 +164,16 @@ def iaBiletlol(w):
 
     #alege voucher
     try:
-        WebDriverWait(w, 1.6).until(EC.visibility_of_element_located(('xpath', '/html/body/section/div/div[2]/div[2]/div[1]/form/div[2]/div[1]/div[2]/button'))).click()
+        wait(w, 1.6).until(EC.visibility_of_element_located(('xpath', '/html/body/section/div/div[2]/div[2]/div[1]/form/div[2]/div[1]/div[2]/button'))).click()
     except:
-        WebDriverWait(w, 10).until(EC.visibility_of_element_located(('xpath', '//*[@id="choosePaymentForm"]/div[2]/div[1]/div[2]/button'))).click()
+        wait(w, 10).until(EC.visibility_of_element_located(('xpath', '//*[@id="choosePaymentForm"]/div[2]/div[1]/div[2]/button'))).click()
 
 
     #sunt de acord
     try:
-        WebDriverWait(w, 10).until(EC.visibility_of_element_located(('xpath',  '/html/body/div[4]/div/div/div[2]/button[1]'))).click()
+        wait(w, 1,3).until(EC.visibility_of_element_located(('xpath',  '/html/body/div[4]/div/div/div[2]/button[1]'))).click()
     except:
-        WebDriverWait(w, 10).until(EC.visibility_of_element_located(('xpath',  '/html/body/div[5]/div/div/div[2]/button[1]'))).click()
+        wait(w, 10).until(EC.visibility_of_element_located(('xpath',  '/html/body/div[5]/div/div/div[2]/button[1]'))).click()
  
     
 
