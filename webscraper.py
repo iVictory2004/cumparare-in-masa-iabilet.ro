@@ -8,7 +8,7 @@ from selenium.common.exceptions import  NoSuchFrameException, InvalidSwitchToTar
 from dotenv import load_dotenv
 import random
 import string
-import time
+from time import sleep
 load_dotenv()   
 import os
 
@@ -31,8 +31,8 @@ random_email =  generage_random_email()
 options = webdriver.ChromeOptions()
 #comenteaza/decomnteaza asta daca vrei sa-l faci headless/cu interfata
 
-options.add_argument("--headless=new")
-options.add_argument("--disable-gpu")
+# options.add_argument("--headless=new")
+# options.add_argument("--disable-gpu")
 
 
 options.add_argument("--no-sandbox")
@@ -89,14 +89,19 @@ def iaBiletlol(w):
     print("VINE CAPTCHAUUU");
 
     if( EC.visibility_of_element_located(("xpath", "/html/body/div[1]/form/div/div/div/iframe"))):
-        time.sleep(1.6)
+        sleep(2.4)
         try:
+            print("analizam aici captcha")
             #wait for iframe elemet of captcha to be clickable and swtich to it
             wait(w , 2).until(EC.frame_to_be_available_and_switch_to_it(("xpath", "/html/body/div[1]/form/div/div/div/iframe")))
 
             wait(w, 2,).until(EC.element_to_be_clickable(("xpath",'/html/body/div[2]/div[3]/div[1]/div/div/span/div[1]'))).click()
 
-            wait(w, 2).until(EC.element_to_be_clickable(("xpath",'/html/body/div[2]/div[3]/div[2]/div/label'))).click()
+            # wait.until(EC.presence_of_element_located(('id', "audio-source")))
+            # Src_URL = driver.find_element_by_id('audio-source').get_attribute('src')
+            # print(Src_URL)
+            # wait(w, 2).until(EC.element_to_be_clickable(("xpath",'/html/body/div[2]/div[3]/div[2]/div/label'))).click()
+
         except (NoSuchFrameException, InvalidSwitchToTargetException ,TimeoutException):
             print("n-are captcha bruh")
         except:
